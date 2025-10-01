@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\UserRole;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,8 +21,10 @@ class IsRoleMiddleware
             return redirect()->route('login');
         }
 
-        if (Auth::user()->role->value !== $role) {
-            return redirect()->route('home');
+        $userRole = Auth::user()->role->value;
+
+        if ($userRole !== $role) {
+            return $userRole === UserRole::GUEST->value ? redirect()->route('login') : redirect()->route('home');
         }
 
         return $next($request);
