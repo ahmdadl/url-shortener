@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -15,8 +18,11 @@ declare(strict_types=1);
 
 pest()->extend(Tests\TestCase::class)
     ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
-    ->in('Feature')
-    ->in('Unit');
+    ->in('Feature', 'Unit');
+
+pest()->beforeEach(function () {
+    asGuest();
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -47,4 +53,14 @@ expect()->extend('toBeOne', function () {
 function something()
 {
     // ..
+}
+
+
+function asGuest(): User
+{
+    $guest = User::factory()->guest()->createOne();
+
+    Auth::login($guest);
+
+    return $guest;
 }
