@@ -20,6 +20,8 @@ class AutoGuestLogin
                     'email' => Str::uuid() . '@guest.local',
                     'password' => bcrypt(Str::random(16)), // random unusable password
                     'role' => UserRole::GUEST,
+                    'ip_address' => $request->ip(),
+                    'user_agent' => $request->userAgent(),
                 ]);
 
                 $request->session()->put('guest_user_id', $guest->id);
