@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('urls', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained();
-            $table->string('url');
+            $table->string('url')->index();
             $table->string('short_code')->unique();
             $table->integer('clicks')->default(0);
             $table->timestamps();
