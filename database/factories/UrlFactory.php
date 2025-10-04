@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\Enums\ShortenerMethodEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,6 +21,7 @@ class UrlFactory extends Factory
             'user_id' => fn () => \App\Models\User::factory()->create(),
             'url' => fake()->url,
             'short_code' => fake()->unique()->regexify('[a-zA-Z0-9]{6}'),
+            'shorten_method' => ShortenerMethodEnum::default()->value,
             'clicks' => 0,
         ];
     }

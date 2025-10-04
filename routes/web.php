@@ -17,3 +17,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
+
+Route::get('u/{shortCode}', function () {
+    return redirect()->away('https://google.com');
+})->name('urls.show');

@@ -9,14 +9,16 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 final class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasUuids;
 
     /**
      * The attributes that should be hidden for serialization.
@@ -97,5 +99,15 @@ final class User extends Authenticatable
         return Attribute::make(
             get: static fn (mixed $_, array $attributes): bool => $attributes['role'] === UserRole::GUEST->value,
         )->shouldCache();
+    }
+
+    /** Relations */
+
+    /**
+     * @return HasMany<Url, $this>
+     */
+    public function urls(): HasMany
+    {
+        return $this->hasMany(Url::class);
     }
 }
