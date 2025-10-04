@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\ShowShortenUrlController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -18,6 +19,4 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
 
-Route::get('u/{shortCode}', function () {
-    return redirect()->away('https://google.com');
-})->name('urls.show');
+Route::get('u/{url:short_code}', ShowShortenUrlController::class)->name('urls.show');
